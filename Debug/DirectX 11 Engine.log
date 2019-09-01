@@ -1,0 +1,4 @@
+﻿  Graphics.cpp
+c:\users\baw78\desktop\directx 11 engine (3)\graphics\graphics.cpp(168): warning C4244: '=': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\baw78\desktop\directx 11 engine (3)\graphics\graphics.cpp(169): warning C4244: '=': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  DirectX 11 Engine.vcxproj -> C:\Users\baw78\Desktop\DirectX 11 Engine (3)\Debug\DirectX 11 Engine.exe

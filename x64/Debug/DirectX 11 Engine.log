@@ -1,0 +1,25 @@
+﻿  Graphics.cpp
+c:\users\baw78\desktop\directx 11 engine (3)\graphics\graphics.cpp(222): warning C4244: '=': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\baw78\desktop\directx 11 engine (3)\graphics\graphics.cpp(223): warning C4244: '=': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\memory(2538): warning C4267: '초기화 중': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=UINT
+          ]
+  c:\users\baw78\desktop\directx 11 engine (3)\graphics\vertexbuffer.h(52): note: 컴파일 중인 함수 템플릿 인스턴스화 'std::unique_ptr<UINT,std::default_delete<_Ty>> std::make_unique<UINT,size_t,0>(size_t &&)'에 대한 참조를 확인하십시오.
+          with
+          [
+              _Ty=UINT
+          ]
+  c:\users\baw78\desktop\directx 11 engine (3)\graphics\vertexbuffer.h(46): note: 클래스 템플릿 멤버 함수 'HRESULT VertexBuffer<Vertex>::Initialize(ID3D11Device *,T *,UINT)'을(를) 컴파일하고 있습니다.
+          with
+          [
+              T=Vertex
+          ]
+  c:\users\baw78\desktop\directx 11 engine (3)\graphics\graphics.cpp(296): note: 컴파일 중인 함수 템플릿 인스턴스화 'HRESULT VertexBuffer<Vertex>::Initialize(ID3D11Device *,T *,UINT)'에 대한 참조를 확인하십시오.
+          with
+          [
+              T=Vertex
+          ]
+  c:\users\baw78\desktop\directx 11 engine (3)\graphics\graphics.h(37): note: 컴파일 중인 클래스 템플릿 인스턴스화 'VertexBuffer<Vertex>'에 대한 참조를 확인하세요.
+  DirectX 11 Engine.vcxproj -> C:\Users\baw78\Desktop\DirectX 11 Engine (3)\x64\Debug\DirectX 11 Engine.exe

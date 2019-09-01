@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\Input">
+      <UniqueIdentifier>{e9105546-0f85-45ef-909b-d0743589f038}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Mouse">
+      <UniqueIdentifier>{c72e0103-fb36-4d0a-80ba-39f3f762769a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Graphics">
+      <UniqueIdentifier>{fe81a257-a5fc-49fb-b56e-b5e7135b17d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine">
+      <UniqueIdentifier>{067dad51-11be-40d9-a553-354a0b6abad7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Graphics\ImGui">
+      <UniqueIdentifier>{f4448981-4a11-42e5-b4a2-570a13585365}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\cpp">
+      <UniqueIdentifier>{0b3e7b45-ee6d-40b3-9f14-57e15e51e9a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\h">
+      <UniqueIdentifier>{a0a5bd70-2021-4006-8578-79a666a37643}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Graphics\cpp">
+      <UniqueIdentifier>{b4fa8a88-7271-4e63-9779-f7e0e0a7f9c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Graphics\h">
+      <UniqueIdentifier>{8f44725b-6367-4227-b1ea-d1cc70108c47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Input\cpp">
+      <UniqueIdentifier>{b07e5e77-9b52-44a6-a122-40c0f10850e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Input\h">
+      <UniqueIdentifier>{271a6b0e-ee94-4721-84e6-3df6678c1d30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Mouse\cpp">
+      <UniqueIdentifier>{f20a2709-fd71-4d2b-9ceb-7eb2cec77535}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Mouse\h">
+      <UniqueIdentifier>{dc9b0e34-def1-4a1f-8e3a-059dc1daa14e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Graphics\ImGui\cpp">
+      <UniqueIdentifier>{c1e363b9-435a-4d7c-8e2e-93c5cce35d92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Graphics\ImGui\h">
+      <UniqueIdentifier>{b5dd8eba-d847-47f1-907a-46737697a94b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Engine.cpp">
+      <Filter>소스 파일\Engine\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="ErrorLogger.cpp">
+      <Filter>소스 파일\Engine\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderWindow.cpp">
+      <Filter>소스 파일\Engine\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="StringConverter.cpp">
+      <Filter>소스 파일\Engine\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>소스 파일\Engine\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowContainer.cpp">
+      <Filter>소스 파일\Engine\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\AdapterReader.cpp">
+      <Filter>소스 파일\Graphics\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Camera.cpp">
+      <Filter>소스 파일\Graphics\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Graphics.cpp">
+      <Filter>소스 파일\Graphics\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Shaders.cpp">
+      <Filter>소스 파일\Graphics\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Vertex.cpp">
+      <Filter>소스 파일\Graphics\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\KeyboardClass.cpp">
+      <Filter>소스 파일\Input\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\KeyboardEvent.cpp">
+      <Filter>소스 파일\Input\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse\MouseClass.cpp">
+      <Filter>소스 파일\Mouse\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse\MouseEvent.cpp">
+      <Filter>소스 파일\Mouse\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\ImGui\imgui.cpp">
+      <Filter>소스 파일\Graphics\ImGui\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\ImGui\imgui_draw.cpp">
+      <Filter>소스 파일\Graphics\ImGui\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\ImGui\imgui_impl_dx11.cpp">
+      <Filter>소스 파일\Graphics\ImGui\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\ImGui\imgui_impl_win32.cpp">
+      <Filter>소스 파일\Graphics\ImGui\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\ImGui\imgui_widgets.cpp">
+      <Filter>소스 파일\Graphics\ImGui\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine.h">
+      <Filter>소스 파일\Engine\h</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderWindow.h">
+      <Filter>소스 파일\Engine\h</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorLogger.h">
+      <Filter>소스 파일\Engine\h</Filter>
+    </ClInclude>
+    <ClInclude Include="StringConverter.h">
+      <Filter>소스 파일\Engine\h</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>소스 파일\Engine\h</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowContainer.h">
+      <Filter>소스 파일\Engine\h</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\AdapterReader.h">
+      <Filter>소스 파일\Graphics\h</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Camera.h">
+      <Filter>소스 파일\Graphics\h</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ConstantBuffer.h">
+      <Filter>소스 파일\Graphics\h</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ConstantBufferTypes.h">
+      <Filter>소스 파일\Graphics\h</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Graphics.h">
+      <Filter>소스 파일\Graphics\h</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\IndexBuffer.h">
+      <Filter>소스 파일\Graphics\h</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Shaders.h">
+      <Filter>소스 파일\Graphics\h</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Vertex.h">
+      <Filter>소스 파일\Graphics\h</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\VertexBuffer.h">
+      <Filter>소스 파일\Graphics\h</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\KeyboardClass.h">
+      <Filter>소스 파일\Input\h</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\KeyboardEvent.h">
+      <Filter>소스 파일\Input\h</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse\MouseClass.h">
+      <Filter>소스 파일\Mouse\h</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse\MouseEvent.h">
+      <Filter>소스 파일\Mouse\h</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ImGui\imconfig.h">
+      <Filter>소스 파일\Graphics\ImGui\h</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ImGui\imgui.h">
+      <Filter>소스 파일\Graphics\ImGui\h</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ImGui\imgui_impl_dx11.h">
+      <Filter>소스 파일\Graphics\ImGui\h</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ImGui\imgui_impl_win32.h">
+      <Filter>소스 파일\Graphics\ImGui\h</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ImGui\imgui_internal.h">
+      <Filter>소스 파일\Graphics\ImGui\h</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ImGui\imstb_rectpack.h">
+      <Filter>소스 파일\Graphics\ImGui\h</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ImGui\imstb_textedit.h">
+      <Filter>소스 파일\Graphics\ImGui\h</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\ImGui\imstb_truetype.h">
+      <Filter>소스 파일\Graphics\ImGui\h</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Graphics\vertexshader.hlsl">
+      <Filter>리소스 파일</Filter>
+    </FxCompile>
+    <FxCompile Include="Graphics\pixelshader.hlsl">
+      <Filter>리소스 파일</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Data\Textures\char_idle.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
