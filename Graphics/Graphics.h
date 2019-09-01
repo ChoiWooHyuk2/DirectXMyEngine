@@ -37,7 +37,6 @@ private:
 	VertexBuffer<Vertex> vertexBuffer;
 	IndexBuffer indicesBuffer;
 	ConstantBuffer<CB_VS_vertexshader> constantBuffer;
-
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> depthStencilView;
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> depthStencilBuffer;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthStencilState;
@@ -49,7 +48,7 @@ private:
 
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerState;
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> myTexture;
-
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> myTexture2;
 
 	int windowWidth = 0;
 	int windowHeight = 0;

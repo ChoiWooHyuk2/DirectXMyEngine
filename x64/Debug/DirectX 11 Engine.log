@@ -1,6 +1,6 @@
 ﻿  Graphics.cpp
-c:\users\baw78\desktop\directx 11 engine (3)\graphics\graphics.cpp(222): warning C4244: '=': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-c:\users\baw78\desktop\directx 11 engine (3)\graphics\graphics.cpp(223): warning C4244: '=': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\baw78\desktop\directx 11 engine (3)\graphics\graphics.cpp(237): warning C4244: '=': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\baw78\desktop\directx 11 engine (3)\graphics\graphics.cpp(238): warning C4244: '=': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.16.27023\include\memory(2538): warning C4267: '초기화 중': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
           with
           [
@@ -16,7 +16,7 @@ c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.1
           [
               T=Vertex
           ]
-  c:\users\baw78\desktop\directx 11 engine (3)\graphics\graphics.cpp(296): note: 컴파일 중인 함수 템플릿 인스턴스화 'HRESULT VertexBuffer<Vertex>::Initialize(ID3D11Device *,T *,UINT)'에 대한 참조를 확인하십시오.
+  c:\users\baw78\desktop\directx 11 engine (3)\graphics\graphics.cpp(311): note: 컴파일 중인 함수 템플릿 인스턴스화 'HRESULT VertexBuffer<Vertex>::Initialize(ID3D11Device *,T *,UINT)'에 대한 참조를 확인하십시오.
           with
           [
               T=Vertex

@@ -1,4 +1,4 @@
-#include "Graphics.h"
+ï»¿#include "Graphics.h"
 
 
 
@@ -17,7 +17,7 @@ bool Graphics::Initialize(HWND hwnd, int width, int height)
 	if (!InitializeScene())
 		return false;
 
-	//ImGui ¼³Á¤
+	//ImGui ì„¤ì •
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
@@ -30,7 +30,7 @@ bool Graphics::Initialize(HWND hwnd, int width, int height)
 
 void Graphics::RenderFrame()
 {
-	float bgcolor[] = { 0.0f, 0.0f, 0.0f, 1.0f};//»ö»ó¼³Á¤
+	float bgcolor[] = { 0.0f, 0.0f, 0.0f, 1.0f};//ìƒ‰ìƒì„¤ì •
 	this->deviceConstext->ClearRenderTargetView(this->rederTargetView.Get(), bgcolor);
 	this->deviceConstext->ClearDepthStencilView(this->depthStencilView.Get(),D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f,0);
 
@@ -46,23 +46,37 @@ void Graphics::RenderFrame()
 
 	UINT offset = 0;
 
-	//»ó¼ö ¹öÆÛ ¾÷µ¥ÀÌÆ®
-	static float translationOffset[3] = {0,0,0};
+	this->deviceConstext->VSSetConstantBuffers(0, 1, this->constantBuffer.GetAddressOf());
+
+	static float translationOffset[3] = { 0,0,0 };
 	XMMATRIX world = XMMatrixTranslation(translationOffset[0], translationOffset[1], translationOffset[2]);
 	constantBuffer.data.mat = world * camera.GetViewMatrix() * camera.GetProjectionMatrix();
 	constantBuffer.data.mat = DirectX::XMMatrixTranspose(constantBuffer.data.mat);
 
 	if (!constantBuffer.ApplyChanges())
 		return;
-	this->deviceConstext->VSSetConstantBuffers(0, 1, this->constantBuffer.GetAddressOf());
 
-	//»ç°¢Çü
+
+	this->deviceConstext->PSSetShaderResources(0, 1, this->myTexture2.GetAddressOf());
+	this->deviceConstext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), vertexBuffer.StridePtr(), &offset);
+	this->deviceConstext->IASetIndexBuffer(indicesBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
+	this->deviceConstext->DrawIndexed(indicesBuffer.BufferSize(), 0, 0);
+
+
+	static float translationOffset2[3] = { 0.25,0.25,0 };
+	XMMATRIX world2 = XMMatrixTranslation(translationOffset2[0], translationOffset2[1], translationOffset2[2]);
+	constantBuffer.data.mat = world2 * camera.GetViewMatrix() * camera.GetProjectionMatrix();
+	constantBuffer.data.mat = DirectX::XMMatrixTranspose(constantBuffer.data.mat);
+
+	if (!constantBuffer.ApplyChanges())
+		return;
+
 	this->deviceConstext->PSSetShaderResources(0, 1, this->myTexture.GetAddressOf());
 	this->deviceConstext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), vertexBuffer.StridePtr(), &offset);
 	this->deviceConstext->IASetIndexBuffer(indicesBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
 	this->deviceConstext->DrawIndexed(indicesBuffer.BufferSize(), 0, 0);
 
-	//±Û¾¾ ±×¸®±â
+	//ê¸€ì”¨ ê·¸ë¦¬ê¸°
 	static int fpsCounter = 0;
 	static std::string fpsString = "FPS : 0";
 	fpsCounter += 1;
@@ -78,11 +92,11 @@ void Graphics::RenderFrame()
 
 
 	static int counter = 0;
-	//ImGui ½ÃÀÛ 
+	//ImGui ì‹œì‘ 
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-	//ImGui Å×½ºÆ® À©µµ¿ì »ı¼º
+	//ImGui í…ŒìŠ¤íŠ¸ ìœˆë„ìš° ìƒì„±
 	ImGui::Begin("Test");
 	ImGui::Text("test text");
 	if (ImGui::Button("CLICK"))
@@ -90,14 +104,15 @@ void Graphics::RenderFrame()
 	ImGui::SameLine();
 	std::string clickCount = "Click Count: " + std::to_string(counter);
 	ImGui::Text(clickCount.c_str());
-	ImGui::DragFloat3("Translation X/Y/Z", translationOffset, 0.1f, -5.0f, 5.0f);
+	ImGui::DragFloat3("farmer", translationOffset, 0.1f, -5.0f, 5.0f);
+	ImGui::DragFloat3("Love", translationOffset2, 0.1f, -5.0f, 5.0f);
 	ImGui::End();
-	//ÇÔ²² ±×¸± µ¥ÀÌÅÍ Á¶¸³
+	//í•¨ê»˜ ê·¸ë¦´ ë°ì´í„° ì¡°ë¦½
 	ImGui::Render();
-	//µ¥ÀÌÅÍ ±×¸®±â
+	//ë°ì´í„° ê·¸ë¦¬ê¸°
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
-	this->swapchain->Present(0, NULL);//¼öÁ÷µ¿±âÈ­ ¿©ºÎ°¡ 0, 1·Î µÇ¾îÀÖÀ½
+	this->swapchain->Present(0, NULL);//ìˆ˜ì§ë™ê¸°í™” ì—¬ë¶€ê°€ 0, 1ë¡œ ë˜ì–´ìˆìŒ
 }
 
 bool Graphics::InitializeDirectX(HWND hwnd)
@@ -106,7 +121,7 @@ bool Graphics::InitializeDirectX(HWND hwnd)
 
 	if (adapters.size() < 1)
 	{
-		ErrorLogger::Log("IDXGI ¾îµªÅÍ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+		ErrorLogger::Log("IDXGI ì–´ëí„°ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 		return false;
 	}
 
@@ -115,41 +130,41 @@ bool Graphics::InitializeDirectX(HWND hwnd)
 
 	scd.BufferDesc.Width = this->windowWidth;
 	scd.BufferDesc.Height = this->windowHeight;
-	scd.BufferDesc.RefreshRate.Numerator = 60; //Àç»ı ºĞÀÚ ´ë·« 1ÃÊ¿¡ 60FPS ¶ó´Â¶æ
-	scd.BufferDesc.RefreshRate.Denominator = 1; //ºĞ¸ğ
-	scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; //¸®¼Ò½ºµ¥ÀÌÅÍ Çü½Ä
-	scd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED; //½ºÄµ¶óÀÎ ¼ø¼­
-	scd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED; //ÁÖ¾îÁø ¸ğ´ÏÅÍ ÇØ»óµµ¿¡ ¸Â°Ô ÀÌ¹ÌÁö°¡ ´Ã¾î³ª´Â ¹æ¹ı
+	scd.BufferDesc.RefreshRate.Numerator = 60; //ì¬ìƒ ë¶„ì ëŒ€ëµ 1ì´ˆì— 60FPS ë¼ëŠ”ëœ»
+	scd.BufferDesc.RefreshRate.Denominator = 1; //ë¶„ëª¨
+	scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; //ë¦¬ì†ŒìŠ¤ë°ì´í„° í˜•ì‹
+	scd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED; //ìŠ¤ìº”ë¼ì¸ ìˆœì„œ
+	scd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED; //ì£¼ì–´ì§„ ëª¨ë‹ˆí„° í•´ìƒë„ì— ë§ê²Œ ì´ë¯¸ì§€ê°€ ëŠ˜ì–´ë‚˜ëŠ” ë°©ë²•
 
-	scd.SampleDesc.Count = 1; //´ÙÁß »ùÇÃ¸µ ¸Å°³º¯¼ö ¼³Á¤
-	scd.SampleDesc.Quality = 0; //±×·¡ÇÈ Ä÷¸®Æ¼
+	scd.SampleDesc.Count = 1; //ë‹¤ì¤‘ ìƒ˜í”Œë§ ë§¤ê°œë³€ìˆ˜ ì„¤ì •
+	scd.SampleDesc.Quality = 0; //ê·¸ë˜í”½ í€„ë¦¬í‹°
 
-	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; //ÁöÇ¥¸é ¹× ÀÚ¿ø »ı¼º ¿É¼Ç //ÇöÀç¼³Á¤ : [Ç¥¸é ¶Ç´Â ¸®¼Ò½º¸¦ Ãâ·Â ·»´õ¸µ ´ë»óÀ¸·Î »ç¿ëÇÕ´Ï´Ù.]
-	scd.BufferCount = 1; //½º¿ÒÃ¼ÀÎÀÇ ¹öÆÛ ¼ö
-	scd.OutputWindow = hwnd; //Ãâ·Â Ã¢¿¡ ´ëÇÑ ÇÚµé
-	scd.Windowed = TRUE; //Ãâ·ÂÀÌ À©µµ¿ì ¸ğµåÀÎÁö ¿©ºÎ
-	scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; //µğ½ºÇÃ·¹ÀÌ È­¸é¿¡¼­ ÇÈ¼¿À» Ã³¸®ÇÏ±â À§ÇÑ ¿É¼Ç
-	scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH; //½º¿ÒÃ¼ÀÎ µ¿ÀÛ¿¡ ´ëÇÑ ¿É¼Ç
+	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; //ì§€í‘œë©´ ë° ìì› ìƒì„± ì˜µì…˜ //í˜„ì¬ì„¤ì • : [í‘œë©´ ë˜ëŠ” ë¦¬ì†ŒìŠ¤ë¥¼ ì¶œë ¥ ë Œë”ë§ ëŒ€ìƒìœ¼ë¡œ ì‚¬ìš©í•©ë‹ˆë‹¤.]
+	scd.BufferCount = 1; //ìŠ¤ì™‘ì²´ì¸ì˜ ë²„í¼ ìˆ˜
+	scd.OutputWindow = hwnd; //ì¶œë ¥ ì°½ì— ëŒ€í•œ í•¸ë“¤
+	scd.Windowed = TRUE; //ì¶œë ¥ì´ ìœˆë„ìš° ëª¨ë“œì¸ì§€ ì—¬ë¶€
+	scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; //ë””ìŠ¤í”Œë ˆì´ í™”ë©´ì—ì„œ í”½ì…€ì„ ì²˜ë¦¬í•˜ê¸° ìœ„í•œ ì˜µì…˜
+	scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH; //ìŠ¤ì™‘ì²´ì¸ ë™ì‘ì— ëŒ€í•œ ì˜µì…˜
 
 	HRESULT hr;
 
 	hr = D3D11CreateDeviceAndSwapChain(
-		adapters[0].pAdapter, //IDXGI ¾îµªÅÍ
+		adapters[0].pAdapter, //IDXGI ì–´ëí„°
 		D3D_DRIVER_TYPE_UNKNOWN,
-		NULL, //¼ÒÇÁÆ®¿ş¾î µå¶óÀÌºê Å¸ÀÔ
-		NULL, //·±Å¸ÀÓ ·¹ÀÌ¾î¿¡ ´ëÇÑ ÇÃ·¹±×
-		NULL, //±â´É ·¹º§ ¹è¿­
-		0, //¹è¿­ÀÇ ±â´É ·¹º§
-		D3D11_SDK_VERSION,//SDK ¹öÀü
-		&scd, //½º¿ÒÃ¼ÀÎ ¼³¸í
+		NULL, //ì†Œí”„íŠ¸ì›¨ì–´ ë“œë¼ì´ë¸Œ íƒ€ì…
+		NULL, //ëŸ°íƒ€ì„ ë ˆì´ì–´ì— ëŒ€í•œ í”Œë ˆê·¸
+		NULL, //ê¸°ëŠ¥ ë ˆë²¨ ë°°ì—´
+		0, //ë°°ì—´ì˜ ê¸°ëŠ¥ ë ˆë²¨
+		D3D11_SDK_VERSION,//SDK ë²„ì „
+		&scd, //ìŠ¤ì™‘ì²´ì¸ ì„¤ëª…
 		this->swapchain.GetAddressOf(),
 		this->device.GetAddressOf(),
-		NULL, //Áö¿øµÇ´Â ±â´É ·¹º§
+		NULL, //ì§€ì›ë˜ëŠ” ê¸°ëŠ¥ ë ˆë²¨
 		this->deviceConstext.GetAddressOf());
 
 	if (FAILED(hr))
 	{
-		ErrorLogger::Log(hr, "½º¿ÒÃ¼ÀÎ »ı¼º¿¡ ½ÇÆĞÇß½À´Ï´Ù.");
+		ErrorLogger::Log(hr, "ìŠ¤ì™‘ì²´ì¸ ìƒì„±ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
 		return false;
 	}
 
@@ -158,15 +173,15 @@ bool Graphics::InitializeDirectX(HWND hwnd)
 	hr = this->swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(backBuffer.GetAddressOf()));
 	if (FAILED(hr))
 	{
-		ErrorLogger::Log(hr, "¹öÆÛ°¡Á®¿À±â ½ÇÆĞ.");
+		ErrorLogger::Log(hr, "ë²„í¼ê°€ì ¸ì˜¤ê¸° ì‹¤íŒ¨.");
 		return false;
 	}
-	//¸®¼Ò½º¸¦ ¿¢¼¼½º ÇÏ±â À§ÇÑ ·»´õÅ¸°Ùºä
+	//ë¦¬ì†ŒìŠ¤ë¥¼ ì—‘ì„¸ìŠ¤ í•˜ê¸° ìœ„í•œ ë Œë”íƒ€ê²Ÿë·°
 
 	hr = this->device->CreateRenderTargetView(backBuffer.Get(), NULL, this->rederTargetView.GetAddressOf());
 	if (FAILED(hr))
 	{
-		ErrorLogger::Log(hr, "·£´õÅ¸°Ùºä »ı¼º ½ÇÆĞ.");
+		ErrorLogger::Log(hr, "ëœë”íƒ€ê²Ÿë·° ìƒì„± ì‹¤íŒ¨.");
 		return false;
 	}
 
@@ -186,19 +201,19 @@ bool Graphics::InitializeDirectX(HWND hwnd)
 	hr = this->device->CreateTexture2D(&depthStencilDesc, NULL, this->depthStencilBuffer.GetAddressOf());
 	if (FAILED(hr))
 	{
-		ErrorLogger::Log(hr, "±íÀÌ ½ºÅÙ½Ç ¹öÆÛ »ı¼º¿¡ ½ÇÆĞÇß½À´Ï´Ù.");
+		ErrorLogger::Log(hr, "ê¹Šì´ ìŠ¤í…ì‹¤ ë²„í¼ ìƒì„±ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
 		return false;
 	}
 
 	hr = this->device->CreateDepthStencilView(this->depthStencilBuffer.Get(), NULL, this->depthStencilView.GetAddressOf());
 	if (FAILED(hr))
 	{
-		ErrorLogger::Log(hr, "±íÀÌ ½ºÅÙ½Ç ºä¸¦ »ı¼º¿¡ ½ÇÆĞÇß½À´Ï´Ù.");
+		ErrorLogger::Log(hr, "ê¹Šì´ ìŠ¤í…ì‹¤ ë·°ë¥¼ ìƒì„±ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
 		return false;
 	}
 	this->deviceConstext->OMSetRenderTargets(1, this->rederTargetView.GetAddressOf(), this->depthStencilView.Get());
 
-	//±íÀÌ ½ºÅÙ½Ç »óÅÂ »ı¼º
+	//ê¹Šì´ ìŠ¤í…ì‹¤ ìƒíƒœ ìƒì„±
 	D3D11_DEPTH_STENCIL_DESC depthstencildesc;
 	ZeroMemory(&depthstencildesc, sizeof(D3D11_DEPTH_STENCIL_DESC));
 
@@ -209,11 +224,11 @@ bool Graphics::InitializeDirectX(HWND hwnd)
 	hr = this->device->CreateDepthStencilState(&depthstencildesc, this->depthStencilState.GetAddressOf());
 	if (FAILED(hr))
 	{
-		ErrorLogger::Log(hr, "±íÀÌ ½ºÅÙ½Ç »óÅÂ »ı¼º¿¡ ½ÇÆĞÇß½À´Ï´Ù.");
+		ErrorLogger::Log(hr, "ê¹Šì´ ìŠ¤í…ì‹¤ ìƒíƒœ ìƒì„±ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
 		return false;
 	}
 
-	//ºäÆ÷Æ® »ı¼º
+	//ë·°í¬íŠ¸ ìƒì„±
 	D3D11_VIEWPORT viewport;
 	ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
 
@@ -224,19 +239,19 @@ bool Graphics::InitializeDirectX(HWND hwnd)
 	viewport.MinDepth = 0.0f;
 	viewport.MaxDepth = 1.0f;
 
-	//ºäÆ÷Æ® ¼³Á¤
+	//ë·°í¬íŠ¸ ì„¤ì •
 	this->deviceConstext->RSSetViewports(1, &viewport);
 
-	//·¡½ºÅÍ ¶óÀÌÀú »ı¼º
+	//ë˜ìŠ¤í„° ë¼ì´ì € ìƒì„±
 	D3D11_RASTERIZER_DESC rasterizerDesc;
 	ZeroMemory(&rasterizerDesc, sizeof(D3D11_RASTERIZER_DESC));
 
-	rasterizerDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID; //Ã¤¿ì±â¸ğµå
-	rasterizerDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;//3d ÇÒ¶§ ¾Õ¿¡¼­´Â º¸ÀÌ°í µÚ¿¡¼­´Â ¾Èº¸ÀÌ°Ô ÇÏ´Â ÀÌ¹ÌÁö Ã³¸®°¡ ÀÌ°ÅÀÓ
+	rasterizerDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID; //ì±„ìš°ê¸°ëª¨ë“œ
+	rasterizerDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;//3d í• ë•Œ ì•ì—ì„œëŠ” ë³´ì´ê³  ë’¤ì—ì„œëŠ” ì•ˆë³´ì´ê²Œ í•˜ëŠ” ì´ë¯¸ì§€ ì²˜ë¦¬ê°€ ì´ê±°ì„
 	hr = this->device->CreateRasterizerState(&rasterizerDesc, this->rasterizerState.GetAddressOf());
 	if (FAILED(hr))
 	{
-		ErrorLogger::Log(hr, "·¡½ºÅÍ ¶óÀÌ´õ ½ºÅ×ÀÌÆ® »ı¼ºÀ» ½ÇÆĞÇß½À´Ï´Ù.");
+		ErrorLogger::Log(hr, "ë˜ìŠ¤í„° ë¼ì´ë” ìŠ¤í…Œì´íŠ¸ ìƒì„±ì„ ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
 		return false;
 	}
 
@@ -255,7 +270,7 @@ bool Graphics::InitializeDirectX(HWND hwnd)
 	hr = this->device->CreateSamplerState(&sampDesc, this->samplerState.GetAddressOf());
 	if (FAILED(hr))
 	{
-		ErrorLogger::Log(hr, "»ùÇÃ ½ºÅ×ÀÌÆ® »ı¼ºÀ» ½ÇÆĞÇß½À´Ï´Ù.");
+		ErrorLogger::Log(hr, "ìƒ˜í”Œ ìŠ¤í…Œì´íŠ¸ ìƒì„±ì„ ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
 		return false;
 	}
 	return true; 
@@ -282,8 +297,8 @@ bool Graphics::InitializeShaders()
 }
 
 bool Graphics::InitializeScene()
-{	 //È­¸é Áß¾ÓÀÌ 0ÀÓ
-	//ÅØ½ºÃÄ
+{	 //í™”ë©´ ì¤‘ì•™ì´ 0ì„
+	//í…ìŠ¤ì³
 	Vertex v[] =
 	{
 		Vertex(-0.5f, -0.5f, 0.0f, 0.0f, 1.0f), //Bottom Left [0]
@@ -296,7 +311,7 @@ bool Graphics::InitializeScene()
 	HRESULT hr = this->vertexBuffer.Initialize(this->device.Get(), v, ARRAYSIZE(v));
 	if (FAILED(hr))
 	{
-		ErrorLogger::Log(hr, "Á¤Á¡¹öÆÛ¸¦ »ı¼ºÇÏ´Âµ¥ ½ÇÆĞÇß½À´Ï´Ù.");
+		ErrorLogger::Log(hr, "ì •ì ë²„í¼ë¥¼ ìƒì„±í•˜ëŠ”ë° ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
 		return false;
 	}
 
@@ -306,30 +321,37 @@ bool Graphics::InitializeScene()
 		0, 2, 3,
 	};
 
-	//ÀÎµ¦½º¹öÆÛ
+	//ì¸ë±ìŠ¤ë²„í¼
 
 	D3D11_SUBRESOURCE_DATA indexBufferData;
 	indexBufferData.pSysMem = indices;
 	hr = this->indicesBuffer.Initialize(this->device.Get(), indices, ARRAYSIZE(indices));
 	if (FAILED(hr))
 	{
-		ErrorLogger::Log(hr, "ÀÎµ¦½º ¹öÆÛ »ı¼º¿¡ ½ÇÆĞÇß½À´Ï´Ù");
+		ErrorLogger::Log(hr, "ì¸ë±ìŠ¤ ë²„í¼ ìƒì„±ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤");
 		return hr;
 	}
 
 	hr = DirectX::CreateWICTextureFromFile(this->device.Get(), L"Data\\Textures\\char_idle.png", nullptr, myTexture.GetAddressOf());
 	if (FAILED(hr))
 	{
-		ErrorLogger::Log(hr, "WIC ÅØ½ºÃÄ »ı¼º¿¡ ½ÇÆĞÇß½À´Ï´Ù.");
+		ErrorLogger::Log(hr, "WIC í…ìŠ¤ì³ ìƒì„±ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
 		return false;
 	}
 
-	//»ó¼ö ¹öÆÛ ÃÊ±âÈ­
+	hr = DirectX::CreateWICTextureFromFile(this->device.Get(), L"Data\\Textures\\love.jpg", nullptr, myTexture2.GetAddressOf());
+	if (FAILED(hr))
+	{
+		ErrorLogger::Log(hr, "WIC í…ìŠ¤ì³ ìƒì„±ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
+		return false;
+	}
+
+	//ìƒìˆ˜ ë²„í¼ ì´ˆê¸°í™”
 	
 	hr = this->constantBuffer.Initialize(this->device.Get(), this->deviceConstext.Get());
 	if (FAILED(hr))
 	{
-		ErrorLogger::Log("»ó¼ö ¹öÆÛ ÃÊ±âÈ­¿¡ ½ÇÆĞÇß½À´Ï´Ù.");
+		ErrorLogger::Log("ìƒìˆ˜ ë²„í¼ ì´ˆê¸°í™”ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
 		return false;
 	}
 	
